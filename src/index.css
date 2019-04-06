@@ -12,3 +12,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.titleContainer, h1 {
+  margin: 0;
+  padding: 0;
+}
+
+.titleContainer {
+  height: 150px;
+  display: flex;
+
+  background-color: coral;
+  align-items: center;
+  justify-content: center;
+}
+
+.titleContainer h1 {
+  font-size: 2.5rem;
+  color: white;
+}

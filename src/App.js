@@ -1,25 +1,62 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
+import axios from 'axios'
+
+import Form from './components/Form'
+import Title from './components/TItle'
+import DisplayData from './components/DisplayData'
+
+const API_KEY = 'mVkI8cJKHAw2u_3H9vqxhfB4JhECH--tFRQwzTsnQQLYBCE4fL5T3DOwestN0YkJanJH-NWvQXxmGzbbnqC3dqc-TmxWBrNSgqPHzKUlOfurk00IxzhgNcZ3IlimXHYx'
+
 class App extends Component {
+
+  state = {
+    busnisses: []
+  }
+
+  getData = async(event) => {
+    event.preventDefault()
+    console.log(this.state)
+
+    const term = event.target.elements.term.value
+
+    axios.get(`${'https://cors-anywhere.herokuapp.com/'}https://api.yelp.com/v3/businesses/search?location=vancouver`, {
+      headers: {
+        Authorization: `Bearer ${process.env.API_KEY}`
+      },
+
+      params: {
+        locale: 'en_CA',
+        term: `${term}`,
+      }
+    })
+      .then((res) => {
+        this.setState({
+          busnisses: res.busnisses
+        })
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <Title />
+        <Form 
+          getData={this.getData}
+        />
+        {this.state.busnisses.slice(0, 10).map((business, i) => {
+          return (
+            <DisplayData 
+              key={i}
+              image={business.image_url}
+            />
+          )
+        })}
       </div>
     );
   }
