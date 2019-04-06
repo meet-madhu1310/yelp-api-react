@@ -54,6 +54,13 @@ class App extends Component {
             <DisplayData 
               key={i}
               image={business.image_url}
+              name={business.name}
+              open={business.is_closed}
+              reviews={business.review_count}
+              ratings={business.rating}
+              location={business.location.address1}
+              phone={business.phone}
+              link={business.url}
             />
           )
         })}
